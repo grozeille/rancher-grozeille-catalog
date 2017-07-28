@@ -1,0 +1,11 @@
+version: '2'
+services:
+  some-mongo:
+    scale: 1
+    start_on_create: true
+  some-elasticsearch:
+    scale: 1
+    start_on_create: true
+  graylog:
+    scale: 1
+    start_on_create: true
