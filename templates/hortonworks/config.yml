@@ -1,0 +1,7 @@
+name: Hortonworks
+description: |
+  Hortonworks Hadoop stack with Ambari
+version: 1.0
+category: Big Data
+maintainer: mathias.kluba@gmail.com
+projectURL: https://fr.hortonworks.com
