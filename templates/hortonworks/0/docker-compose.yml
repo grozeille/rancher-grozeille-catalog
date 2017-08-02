@@ -156,7 +156,7 @@ services:
     - 10000:10000/tcp
     links:
     - ambari-server:ambari-server
-    #- ambari-agent-hive-database:ambari-agent-hive-database
+    - ambari-agent-hive-database:ambari-agent-hive-database
     command:
     - systemd.setenv=USE_CONSUL_DNS=false
     - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
