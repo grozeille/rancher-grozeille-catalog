@@ -57,6 +57,7 @@ services:
     command:
     - systemd.setenv=USE_CONSUL_DNS=false
     - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
@@ -73,6 +74,7 @@ services:
     command:
     - systemd.setenv=USE_CONSUL_DNS=false
     - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
@@ -92,6 +94,7 @@ services:
     command:
     - systemd.setenv=USE_CONSUL_DNS=false
     - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
@@ -111,6 +114,7 @@ services:
     command:
     - systemd.setenv=USE_CONSUL_DNS=false
     - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
@@ -127,6 +131,7 @@ services:
     command:
     - systemd.setenv=USE_CONSUL_DNS=false
     - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
@@ -160,6 +165,7 @@ services:
     command:
     - systemd.setenv=USE_CONSUL_DNS=false
     - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
@@ -179,6 +185,7 @@ services:
     command:
     - systemd.setenv=USE_CONSUL_DNS=false
     - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
@@ -198,6 +205,7 @@ services:
     command:
     - systemd.setenv=USE_CONSUL_DNS=false
     - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
