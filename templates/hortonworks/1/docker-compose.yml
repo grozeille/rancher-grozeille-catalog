@@ -14,7 +14,7 @@ services:
       io.rancher.scheduler.affinity:host_label: ambari=server
   ambari-server:
     privileged: true
-    image: grozeille/ambari-server:2.5.1.0-v1
+    image: grozeille/ambari-server:2.5.1.0-v2
     stdin_open: true
     tty: true
     ports:
@@ -45,7 +45,7 @@ services:
       io.rancher.container.start_once: 'true'
   ambari-agent-namenode:
     privileged: true
-    image: grozeille/ambari-agent:2.5.1.0-v1
+    image: grozeille/ambari-agent-namenode:2.5.1.0-v2
     stdin_open: true
     volumes:
     - /mnt/sda1/hadoop-namenode:/hadoop
@@ -64,7 +64,7 @@ services:
       io.rancher.scheduler.affinity:host_label: hadoop=master
   ambari-agent-secondarynamenode:
     privileged: true
-    image: grozeille/ambari-agent:2.5.1.0-v1
+    image: grozeille/ambari-agent-secondarynamenode:2.5.1.0-v2
     stdin_open: true
     volumes:
     - /mnt/sda1/hadoop-secondarynamenode:/hadoop
@@ -81,7 +81,7 @@ services:
       io.rancher.scheduler.affinity:host_label: hadoop=master
   ambari-agent-resourcemanager:
     privileged: true
-    image: grozeille/ambari-agent:2.5.1.0-v1
+    image: grozeille/ambari-agent-resourcemanager:2.5.1.0-v2
     stdin_open: true
     volumes:
     - /mnt/sda1/hadoop-resourcemanager:/hadoop
@@ -101,7 +101,7 @@ services:
       io.rancher.scheduler.affinity:host_label: hadoop=data
   ambari-agent-spark:
     privileged: true
-    image: grozeille/ambari-agent:2.5.1.0-v1
+    image: grozeille/ambari-agent-spark:2.5.1.0-v2
     stdin_open: true
     volumes:
     - /mnt/sda1/hadoop-spark:/hadoop
@@ -121,7 +121,7 @@ services:
       io.rancher.scheduler.affinity:host_label: hadoop=data
   ambari-agent-zookeeper:
     privileged: true
-    image: grozeille/ambari-agent:2.5.1.0-v1
+    image: grozeille/ambari-agent-zookeeper:2.5.1.0-v2
     stdin_open: true
     volumes:
     - /mnt/sda1/hadoop-zookeeper:/hadoop
@@ -150,7 +150,7 @@ services:
       io.rancher.scheduler.affinity:host_label: hadoop=data
   ambari-agent-hive:
     privileged: true
-    image: grozeille/ambari-agent:2.5.1.0-v1
+    image: grozeille/ambari-agent-hive:2.5.1.0-v2
     stdin_open: true
     volumes:
     - /mnt/sda1/hadoop-hive:/hadoop
@@ -172,7 +172,7 @@ services:
       io.rancher.scheduler.affinity:host_label: hadoop=data
   ambari-agent-metrics:
     privileged: true
-    image: grozeille/ambari-agent:2.5.1.0-v1
+    image: grozeille/ambari-agent-metrics:2.5.1.0-v2
     stdin_open: true
     volumes:
     - /mnt/sda1/hadoop-hive:/hadoop
@@ -192,7 +192,7 @@ services:
       io.rancher.scheduler.affinity:host_label: hadoop=data
   ambari-agent-datanode:
     privileged: true
-    image: grozeille/ambari-agent:2.5.1.0-v1
+    image: grozeille/ambari-agent-datanode:2.5.1.0-v2
     stdin_open: true
     volumes:
     - /mnt/sda1/hadoop-datanode:/hadoop
