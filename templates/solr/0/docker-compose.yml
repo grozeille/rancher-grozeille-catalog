@@ -10,5 +10,3 @@ services:
       - docker-entrypoint.sh
       - solr-precreate
       - ${core_name}
-volumes:
-  data:

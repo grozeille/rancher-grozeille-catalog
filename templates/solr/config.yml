@@ -1,6 +1,7 @@
 name: Apache Solr
 description: |
 Apache Solr
+version: 1.0
 category: Big Data
 maintainer: mathias.kluba@gmail.com
 projectURL: http://lucene.apache.org/solr/
