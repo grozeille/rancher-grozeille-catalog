@@ -12,7 +12,7 @@
       required: true
       default: "mycore" 
       type: "string"
-ambari-server-database:
+solr:
   retain_ip: true
   scale: 1
   start_on_create: true
