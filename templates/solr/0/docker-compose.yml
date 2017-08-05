@@ -1,0 +1,14 @@
+version: '2'
+services:
+  solr:
+    image: library/solr:6.6.0
+    ports:
+     - "8983:8983"
+    volumes:
+      - data:/opt/solr/server/solr/${core_name}
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
+      - ${core_name}
+volumes:
+  data:
