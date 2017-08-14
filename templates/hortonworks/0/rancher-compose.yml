@@ -35,7 +35,7 @@ ambari-server:
 ambari-server-bootstrap:
   scale: 1
   start_on_create: true
-ambari-agent-namenode:
+namenode:
   retain_ip: true
   scale: 1
   start_on_create: true
@@ -48,7 +48,7 @@ ambari-agent-namenode:
     interval: 2000
     strategy: none
     reinitializing_timeout: 600000
-ambari-agent-secondarynamenode:
+secondarynamenode:
   retain_ip: true
   scale: 1
   start_on_create: true
@@ -61,7 +61,7 @@ ambari-agent-secondarynamenode:
     interval: 2000
     strategy: none
     reinitializing_timeout: 600000
-ambari-agent-resourcemanager:
+resourcemanager:
   retain_ip: true
   scale: 1
   start_on_create: true
@@ -74,7 +74,7 @@ ambari-agent-resourcemanager:
     interval: 2000
     strategy: none
     reinitializing_timeout: 600000
-ambari-agent-zookeeper:
+zookeeper:
   retain_ip: true
   scale: 1
   start_on_create: true
@@ -87,7 +87,7 @@ ambari-agent-zookeeper:
     interval: 2000
     strategy: none
     reinitializing_timeout: 600000
-ambari-agent-hive-database:
+hive-database:
   retain_ip: true
   scale: 1
   start_on_create: true
@@ -100,7 +100,7 @@ ambari-agent-hive-database:
     interval: 2000
     strategy: none
     reinitializing_timeout: 600000
-ambari-agent-hive:
+hive:
   retain_ip: true
   scale: 1
   start_on_create: true
@@ -113,7 +113,7 @@ ambari-agent-hive:
     interval: 2000
     strategy: none
     reinitializing_timeout: 600000
-ambari-agent-metrics:
+metrics:
   retain_ip: true
   scale: 1
   start_on_create: true
@@ -126,7 +126,33 @@ ambari-agent-metrics:
     interval: 2000
     strategy: none
     reinitializing_timeout: 600000
-ambari-agent-datanode:
+hue-database:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 5432
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
+hue:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8670
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
+datanode:
   retain_ip: true
   scale: 1
   start_on_create: true
