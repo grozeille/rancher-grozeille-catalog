@@ -107,8 +107,8 @@ services:
     - /mnt/sda1/hadoop-spark:/hadoop
     tty: true
     ports:
-    - 18081:18081/tcp
-    - 8999:8999/tcp
+    - 18080:18080/tcp
+    - 8998:8998/tcp
     links:
     - ambari-server:ambari-server
     command:
@@ -170,6 +170,38 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
       io.rancher.scheduler.affinity:host_label: hadoop=data
+  oozie-database:
+    image: library/postgres:9.6
+    environment:
+      POSTGRES_DB: oozie
+      POSTGRES_PASSWORD: oozie
+      POSTGRES_USER: oozie
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.scheduler.affinity:host_label: hadoop=data
+      io.rancher.container.hostname_override: container_name
+      io.rancher.container.pull_image: always
+  oozie:
+    privileged: true
+    image: grozeille/ambari-agent-oozie:2.5.1.0-v2
+    stdin_open: true
+    volumes:
+    - /mnt/sda1/hadoop-oozie:/hadoop
+    tty: true
+    links:
+    - ambari-server:ambari-server
+    - oozie-database:oozie-database
+    ports:
+    - 11000:11000/tcp
+    command:
+    - systemd.setenv=USE_CONSUL_DNS=false
+    - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
+    labels:
+      io.rancher.scheduler.affinity:host_label: hadoop=data
+      io.rancher.container.hostname_override: container_name
+      io.rancher.container.pull_image: always
   metrics:
     privileged: true
     image: grozeille/ambari-agent-metrics:2.5.1.0-v2

@@ -113,6 +113,32 @@ hive:
     interval: 2000
     strategy: none
     reinitializing_timeout: 600000
+oozie-database:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 5432
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
+oozie:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8670
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
 metrics:
   retain_ip: true
   scale: 1
