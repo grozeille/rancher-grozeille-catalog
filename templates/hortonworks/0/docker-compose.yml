@@ -98,7 +98,7 @@ services:
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
-      io.rancher.scheduler.affinity:host_label: hadoop=master
+      io.rancher.scheduler.affinity:host_label: hadoop=data
   spark:
     privileged: true
     image: grozeille/ambari-agent-spark:2.5.1.0-v2
@@ -224,7 +224,7 @@ services:
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
-      io.rancher.scheduler.affinity:host_label: hadoop=master
+      io.rancher.scheduler.affinity:host_label: hadoop=data
   hue-database:
     image: library/postgres:9.6
     environment:
