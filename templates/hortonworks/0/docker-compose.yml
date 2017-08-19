@@ -98,7 +98,7 @@ services:
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
-      io.rancher.scheduler.affinity:host_label: hadoop=data
+      io.rancher.scheduler.affinity:host_label: hadoop=master
   spark:
     privileged: true
     image: grozeille/ambari-agent-spark:2.5.1.0-v2
@@ -135,7 +135,7 @@ services:
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
-      io.rancher.scheduler.affinity:host_label: hadoop=data
+      io.rancher.scheduler.affinity:host_label: hadoop=master
   hive-database:
     image: library/postgres:9.6
     environment:
@@ -143,6 +143,8 @@ services:
       POSTGRES_PASSWORD: hive
       POSTGRES_DB: hive
     stdin_open: true
+    volumes:
+    - /mnt/sda1/hive-database:/var/lib/postgresql/data
     tty: true
     labels:
       io.rancher.container.pull_image: always
@@ -177,6 +179,8 @@ services:
       POSTGRES_PASSWORD: oozie
       POSTGRES_USER: oozie
     stdin_open: true
+    volumes:
+    - /mnt/sda1/oozie-database:/var/lib/postgresql/data
     tty: true
     labels:
       io.rancher.scheduler.affinity:host_label: hadoop=data
@@ -207,7 +211,7 @@ services:
     image: grozeille/ambari-agent-metrics:2.5.1.0-v2
     stdin_open: true
     volumes:
-    - /mnt/sda1/hadoop-hive:/hadoop
+    - /mnt/sda1/hadoop-metrics:/hadoop
     tty: true
     ports:
     - 3000:3000/tcp
@@ -220,7 +224,7 @@ services:
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name
-      io.rancher.scheduler.affinity:host_label: hadoop=data
+      io.rancher.scheduler.affinity:host_label: hadoop=master
   hue-database:
     image: library/postgres:9.6
     environment:
@@ -228,6 +232,8 @@ services:
       POSTGRES_PASSWORD: hue
       POSTGRES_USER: hue
     stdin_open: true
+    volumes:
+    - /mnt/sda1/hue-database:/var/lib/postgresql/data
     tty: true
     labels:
       io.rancher.scheduler.affinity:host_label: hadoop=data
