@@ -52,6 +52,7 @@ services:
     tty: true
     ports:
     - 50070:50070/tcp
+    - 8020:8020/tcp
     links:
     - ambari-server:ambari-server
     command:
@@ -89,6 +90,7 @@ services:
     ports:
     - 8088:8088/tcp
     - 19888:19888/tcp
+    - 8050:8050/tcp
     links:
     - ambari-server:ambari-server
     command:
@@ -158,9 +160,8 @@ services:
     - /mnt/sda1/hadoop-hive:/hadoop
     tty: true
     ports:
-    - 10500:10500/tcp
-    - 10502:10502/tcp
     - 10000:10000/tcp
+    - 9083:9083/tcp
     links:
     - ambari-server:ambari-server
     - hive-database:hive-database
@@ -273,6 +274,8 @@ services:
     ports:
     - 8042:8042/tcp
     - 50075:50075/tcp
+    - 50020:50020/tcp
+    - 50010:50010/tcp
     links:
     - ambari-server:ambari-server
     command:
