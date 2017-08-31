@@ -2,7 +2,7 @@
   name: Hortonworks
   description: |
     Hortonworks Hadoop stack with Ambari
-  version: 2.6.1 - Hive - Spark2
+  version: 2.6.1 - TEST
   category: Big Data
   maintainer: mathias.kluba@gmail.com
   projectURL: https://fr.hortonworks.com
