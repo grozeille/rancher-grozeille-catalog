@@ -1,0 +1,296 @@
+version: '2'
+services:
+  ambari-server-database:
+    image: library/postgres:9.6
+    environment:
+      POSTGRES_USER: ambari
+      POSTGRES_PASSWORD: bigdata
+      POSTGRES_DB: ambari
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: ambari=server
+  ambari-server:
+    privileged: true
+    image: grozeille/ambari-server:2.5.1.0-v2
+    stdin_open: true
+    tty: true
+    ports:
+    - 8081:8080/tcp
+    links:
+    - ambari-server-database:ambari-server-database
+    command:
+    - systemd.setenv=USE_CONSUL_DNS=false
+    - systemd.setenv=POSTGRES_DB=ambari-server-database
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: ambari=server
+  ambari-server-bootstrap:
+    image: grozeille/rancher-ambari-bootstrap:1.0
+    environment:
+      HDP_REPO_URL: http://192.168.1.63/yum/hdp/HDP/centos7/2.x/updates/2.6.1.0
+      HDP_UTIL_REPO_URL: http://192.168.1.63/yum/hdp/HDP-UTILS-1.1.0.21/repos/centos7
+    stdin_open: true
+    tty: true
+    links:
+    - ambari-server:ambari-server
+    entrypoint:
+    - ./deploy.py
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: ambari=server
+      io.rancher.container.start_once: 'true'
+  namenode:
+    privileged: true
+    image: grozeille/ambari-agent-namenode:2.5.1.0-v2
+    stdin_open: true
+    volumes:
+    - /mnt/sda1/hadoop-namenode:/hadoop
+    tty: true
+    ports:
+    - 50070:50070/tcp
+    - 8020:8020/tcp
+    links:
+    - ambari-server:ambari-server
+    command:
+    - systemd.setenv=USE_CONSUL_DNS=false
+    - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: hadoop=master
+  secondarynamenode:
+    privileged: true
+    image: grozeille/ambari-agent-secondarynamenode:2.5.1.0-v2
+    stdin_open: true
+    volumes:
+    - /mnt/sda1/hadoop-secondarynamenode:/hadoop
+    tty: true
+    links:
+    - ambari-server:ambari-server
+    command:
+    - systemd.setenv=USE_CONSUL_DNS=false
+    - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: hadoop=master
+  resourcemanager:
+    privileged: true
+    image: grozeille/ambari-agent-resourcemanager:2.5.1.0-v2
+    stdin_open: true
+    volumes:
+    - /mnt/sda1/hadoop-resourcemanager:/hadoop
+    tty: true
+    ports:
+    - 8088:8088/tcp
+    - 19888:19888/tcp
+    - 8050:8050/tcp
+    links:
+    - ambari-server:ambari-server
+    command:
+    - systemd.setenv=USE_CONSUL_DNS=false
+    - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: hadoop=data
+  spark:
+    privileged: true
+    image: grozeille/ambari-agent-spark:2.5.1.0-v2
+    stdin_open: true
+    volumes:
+    - /mnt/sda1/hadoop-spark:/hadoop
+    tty: true
+    ports:
+    - 18080:18080/tcp
+    - 8998:8998/tcp
+    links:
+    - ambari-server:ambari-server
+    command:
+    - systemd.setenv=USE_CONSUL_DNS=false
+    - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: hadoop=data
+  zookeeper:
+    privileged: true
+    image: grozeille/ambari-agent-zookeeper:2.5.1.0-v2
+    stdin_open: true
+    volumes:
+    - /mnt/sda1/hadoop-zookeeper:/hadoop
+    tty: true
+    links:
+    - ambari-server:ambari-server
+    command:
+    - systemd.setenv=USE_CONSUL_DNS=false
+    - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: hadoop=master
+  {{- if eq .Values.WITH_HIVE "true" }}
+  hive-database:
+    image: library/postgres:9.6
+    environment:
+      POSTGRES_USER: hive
+      POSTGRES_PASSWORD: hive
+      POSTGRES_DB: hive
+    stdin_open: true
+    volumes:
+    - /mnt/sda1/hive-database:/var/lib/postgresql/data
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: hadoop=data
+  hive:
+    privileged: true
+    image: grozeille/ambari-agent-hive:2.5.1.0-v2
+    stdin_open: true
+    volumes:
+    - /mnt/sda1/hadoop-hive:/hadoop
+    tty: true
+    ports:
+    - 10000:10000/tcp
+    - 9083:9083/tcp
+    links:
+    - ambari-server:ambari-server
+    - hive-database:hive-database
+    command:
+    - systemd.setenv=USE_CONSUL_DNS=false
+    - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: hadoop=data
+  {{- end }}
+  {{- if eq .Values.WITH_OOZIE "true" }}
+  oozie-database:
+    image: library/postgres:9.6
+    environment:
+      POSTGRES_DB: oozie
+      POSTGRES_PASSWORD: oozie
+      POSTGRES_USER: oozie
+    stdin_open: true
+    volumes:
+    - /mnt/sda1/oozie-database:/var/lib/postgresql/data
+    tty: true
+    labels:
+      io.rancher.scheduler.affinity:host_label: hadoop=data
+      io.rancher.container.hostname_override: container_name
+      io.rancher.container.pull_image: always
+  oozie:
+    privileged: true
+    image: grozeille/ambari-agent-oozie:2.5.1.0-v2
+    stdin_open: true
+    volumes:
+    - /mnt/sda1/hadoop-oozie:/hadoop
+    tty: true
+    links:
+    - ambari-server:ambari-server
+    - oozie-database:oozie-database
+    ports:
+    - 11000:11000/tcp
+    command:
+    - systemd.setenv=USE_CONSUL_DNS=false
+    - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
+    labels:
+      io.rancher.scheduler.affinity:host_label: hadoop=data
+      io.rancher.container.hostname_override: container_name
+      io.rancher.container.pull_image: always
+  {{- end }}
+  {{- if eq .Values.WITH_METRICS "true" }}
+  metrics:
+    privileged: true
+    image: grozeille/ambari-agent-metrics:2.5.1.0-v2
+    stdin_open: true
+    volumes:
+    - /mnt/sda1/hadoop-metrics:/hadoop
+    tty: true
+    ports:
+    - 3000:3000/tcp
+    links:
+    - ambari-server:ambari-server
+    command:
+    - systemd.setenv=USE_CONSUL_DNS=false
+    - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: hadoop=data
+  {{- end }}
+  {{- if eq .Values.WITH_HUE "true" }}
+  hue-database:
+    image: library/postgres:9.6
+    environment:
+      POSTGRES_DB: hue
+      POSTGRES_PASSWORD: hue
+      POSTGRES_USER: hue
+    stdin_open: true
+    volumes:
+    - /mnt/sda1/hue-database:/var/lib/postgresql/data
+    tty: true
+    labels:
+      io.rancher.scheduler.affinity:host_label: hadoop=data
+      io.rancher.container.hostname_override: container_name
+      io.rancher.container.pull_image: always
+  hue:
+    privileged: true
+    image: grozeille/ambari-agent-hue:2.5.1.0-v2
+    stdin_open: true
+    volumes:
+    - /mnt/sda1/hadoop-hue:/hadoop
+    tty: true
+    ports:
+    - 8888:8888/tcp
+    links:
+    - ambari-server:ambari-server
+    - namenode:namenode
+    - resourcemanager:resourcemanager
+    - hive:hive
+    - spark:spark
+    - hue-database:hue-database
+    command:
+    - systemd.setenv=USE_CONSUL_DNS=false
+    - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: hadoop=data
+  {{- end }}
+  datanode:
+    privileged: true
+    image: grozeille/ambari-agent-datanode:2.5.1.0-v2
+    stdin_open: true
+    volumes:
+    - /mnt/sda1/hadoop-datanode:/hadoop
+    tty: true
+    ports:
+    - 8042:8042/tcp
+    - 50075:50075/tcp
+    - 50020:50020/tcp
+    - 50010:50010/tcp
+    links:
+    - ambari-server:ambari-server
+    command:
+    - systemd.setenv=USE_CONSUL_DNS=false
+    - systemd.setenv=AMBARI_SERVER_ADDR=ambari-server
+    - systemd.setenv=USE_RANCHER=true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:host_label: hadoop=data

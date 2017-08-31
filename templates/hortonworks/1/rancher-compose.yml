@@ -1,0 +1,219 @@
+.catalog:
+  name: Hortonworks
+  description: |
+    Hortonworks Hadoop stack with Ambari
+  version: 2.6.1 - Hive - Spark2
+  category: Big Data
+  maintainer: mathias.kluba@gmail.com
+  projectURL: https://fr.hortonworks.com
+  questions:
+  - variable: WITH_HIVE
+    label: With Hive ?
+    required: true
+    default: true
+    type: boolean
+  - variable: WITH_OOZIE
+    label: With Oozie ?
+    required: true
+    default: true
+    type: boolean
+  - variable: WITH_HUE
+    label: With Hive ?
+    required: true
+    default: true
+    type: boolean
+  - variable: WITH_METRICS
+    label: With Ambari Metrics ?
+    required: true
+    default: true
+    type: boolean
+  - variable: WITH_SPARK
+    label: With Spark ?
+    required: true
+    default: true
+    type: boolean
+ambari-server-database:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 5432
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
+ambari-server:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8080
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
+ambari-server-bootstrap:
+  scale: 1
+  start_on_create: true
+namenode:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8670
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
+secondarynamenode:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8670
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
+resourcemanager:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8670
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
+zookeeper:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8670
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
+hive-database:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 5432
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
+hive:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8670
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
+oozie-database:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 5432
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
+oozie:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8670
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
+metrics:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8670
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
+hue-database:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 5432
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
+hue:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8670
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
+datanode:
+  retain_ip: true
+  scale: 1
+  start_on_create: true
+  health_check:
+    response_timeout: 2000
+    healthy_threshold: 2
+    port: 8670
+    unhealthy_threshold: 3
+    initializing_timeout: 600000
+    interval: 2000
+    strategy: none
+    reinitializing_timeout: 600000
