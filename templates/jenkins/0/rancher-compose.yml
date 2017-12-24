@@ -1,0 +1,49 @@
+.catalog:
+  name: Jenkins
+  version: "1.0"
+  description: |
+    http://rancher.com/deploying-a-scalable-jenkins-cluster-with-docker-and-rancher/
+  questions:
+    - variable: jenkins_user
+      label: "Jenkins username"
+      type: "string"
+      required: false
+      description: |
+        Username to authenticate to a secured Jenkins host with.
+    - variable: jenkins_pass
+      label: "Jenkins password"
+      type: "string"
+      required: false
+      description: |
+        Password to authenticate to a secured Jenkins host with.
+    - variable: jenkins_slave_executors
+      required: false
+      type: "string"
+      description: |
+        Number of executors on the swarm. Default is #cpus
+
+jenkins-slave:
+  scale: ${jenkins_slave_executors}
+  start_on_create: true
+jenkins-master:
+  scale: 1
+  start_on_create: true
+jenkins-lb:
+  scale: 1
+  start_on_create: true
+  lb_config:
+    certs: []
+    port_rules:
+    - priority: 1
+      protocol: http
+      service: jenkins-master
+      source_port: 8080
+      target_port: 8080
+  health_check:
+    healthy_threshold: 2
+    response_timeout: 2000
+    port: 42
+    unhealthy_threshold: 3
+    initializing_timeout: 60000
+    interval: 2000
+    reinitializing_timeout: 60000

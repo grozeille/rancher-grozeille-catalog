@@ -1,0 +1,5 @@
+name: Jenkins
+description: |
+  http://rancher.com/deploying-a-scalable-jenkins-cluster-with-docker-and-rancher/
+version: "1.0"
+category: Continuous Integration

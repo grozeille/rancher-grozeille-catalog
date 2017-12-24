@@ -1,0 +1,29 @@
+jenkins-master:
+  image: grozeille/jenkins-master
+  stdin_open: true
+  tty: true
+  privileged: true
+  #ports:
+  #- 8080:8080/tcp
+jenkins-slave:
+  image: grozeille/jenkins-slave
+  stdin_open: true
+  tty: true
+  privileged: true
+  environment:
+    JENKINS_USERNAME: "${jenkins_user}"
+    JENKINS_PASSWORD: "${jenkins_pass}"
+    JENKINS_MASTER: http://jenkins-master:8080
+  links:
+  - jenkins-master:jenkins-master
+  volumes:
+  - /var/jenkins  
+jenkins-lb:
+  image: rancher/lb-service-haproxy:v0.7.9
+  stdin_open: true
+  tty: true
+  ports:
+  - 8080:8080/tcp
+  labels:
+    io.rancher.container.agent.role: environmentAdmin
+    io.rancher.container.create_agent: 'true'
