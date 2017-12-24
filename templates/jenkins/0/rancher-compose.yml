@@ -17,8 +17,9 @@
       description: |
         Password to authenticate to a secured Jenkins host with.
     - variable: jenkins_slave_executors
+      label: "Jenkins slave executors"
       required: false
-      type: "string"
+      type: "int"
       description: |
         Number of executors on the swarm. Default is #cpus
 
