@@ -1,0 +1,35 @@
+.catalog:
+  name: Greylog2
+  description: |
+    Greylog2 stack
+  version: 2.0
+  category: Logging
+  maintainer: mathias.kluba@gmail.com
+  projectURL: https://www.graylog.org/
+  questions:
+  - variable: "graylog_port"
+    type: "int"
+    label: "Port Number"
+    description: "Which port should Greylog2 listen on?"
+    default: 9000
+    required: true
+  - variable: graylog_password_secret
+    label: "Graylog password secret"
+    type: "string"
+    required: true
+    default: "somepasswordpepper"
+  - variable: graylog_password_sha2
+    label: "Graylog password sha2"
+    description: "'admin' by default"
+    type: "string"
+    required: true
+    default: "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918"
+mongo:
+  scale: 1
+  start_on_create: true
+elasticsearch:
+  scale: 1
+  start_on_create: true
+graylog:
+  scale: 1
+  start_on_create: true
