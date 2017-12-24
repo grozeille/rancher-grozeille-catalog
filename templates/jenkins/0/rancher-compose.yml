@@ -7,19 +7,22 @@
     - variable: jenkins_user
       label: "Jenkins username"
       type: "string"
-      required: false
+      required: true
+      default: "jenkins"
       description: |
         Username to authenticate to a secured Jenkins host with.
     - variable: jenkins_pass
       label: "Jenkins password"
       type: "string"
-      required: false
+      required: true
+      default: "jenkins"
       description: |
         Password to authenticate to a secured Jenkins host with.
     - variable: jenkins_slave_executors
       label: "Jenkins slave executors"
-      required: false
+      required: true
       type: "int"
+      default: "1"
       description: |
         Number of executors on the swarm. Default is #cpus
 
