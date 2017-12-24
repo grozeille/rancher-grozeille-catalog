@@ -1,7 +1,7 @@
 .catalog:
-  name: Greylog2
+  name: Graylog2
   description: |
-    Greylog2 stack
+    Graylog2 stack
   version: 1.0
   category: Logging
   maintainer: mathias.kluba@gmail.com
@@ -10,7 +10,7 @@
   - variable: "PORT"
     type: "int"
     label: "Port Number"
-    description: "Which port should Greylog2 listen on?"
+    description: "Which port should Graylog2 listen on?"
     default: 9000
     required: true
 some-mongo:
