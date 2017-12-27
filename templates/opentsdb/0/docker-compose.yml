@@ -65,6 +65,8 @@ services:
     links:
         - grafana
         - opentsdb
+    labels:
+      io.rancher.container.start_once: 'true'
 volumes:
     grafana_etc:
     grafana_lib:
