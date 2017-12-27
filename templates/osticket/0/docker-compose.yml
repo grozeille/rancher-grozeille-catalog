@@ -1,0 +1,18 @@
+mysql:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_USER: osticket
+      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: osticket
+osticket:
+    image: campbellsoftwaresolutions/osticket
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_USER: osticket
+      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: osticket
+    links:
+    - mysql
+    ports:
+      - 7070:8080
