@@ -1,0 +1,7 @@
+name: OpenTSDB
+version: "1.0"
+description: |
+  The Scalable Time Series Database
+  Store and serve massive amounts of time series data without losing granularity.
+  http://opentsdb.net/
+category: Monitoring

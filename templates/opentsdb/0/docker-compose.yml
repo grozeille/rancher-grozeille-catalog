@@ -1,0 +1,76 @@
+version: '2'
+services:
+  opentsdb:
+    image: grozeille/hbase-opentsdb
+    stdin_open: true
+    tty: true
+    privileged: true
+    environment:
+      JVMARGS: "-Xms2g -Xmx2g -enableassertions -enablesystemassertions"
+      TSD_CONF_tsd__storage__hbase__zk_quorum: "hbase:2181"
+      TSD_CONF_tsd__storage__hbase__zk_basedir: "/hbase"
+      TSD_CONF_tsd__storage__hbase__data_table: "tsdb"
+      TSD_CONF_tsd__storage__hbase__meta_table: "tsdb-meta"
+      TSD_CONF_tsd__storage__hbase__tree_table: "tsdb-tree"
+      TSD_CONF_tsd__storage__hbase__uid_table: "tsdb-uid"
+      TSD_CONF_tsd__core__auto_create_metrics: "True"
+      TSD_CONF_tsd__core__auto_create_tagvs: "True"
+      TSD_CONF_tsd__core__meta__enable_realtime_ts: "True"
+      TSD_CONF_tsd__core__meta__enable_realtime_uid: "True"
+      TSD_TELEMETRY_INTERVAL: 60
+      PORT: 4242
+    ports:
+      - 4242:4242
+    links:
+      - hbase
+    depends_on:
+      - hbase
+    volumes:
+      - opentsdb_cache:/var/cache/opentsdb
+      - opentsdb_log:/var/log/opentsdb
+  hbase:
+      image: harisekhon/hbase:1.2
+      hostname: hbase
+      ports:
+        - 2181:2181
+        - 8080:8080
+        - 8085:8085
+        - 9090:9090
+        - 9095:9095
+        - 16000:16000
+        - 16010:16010
+        - 16201:16201
+        - 16301:16301
+      volumes:
+        - hbase_data:/tmp/hbase-root/
+        - hbase_log:/hbase/logs
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - 3000:3000
+    links:
+      - opentsdb
+    depends_on:
+      - opentsdb
+    volumes:
+        - grafana_etc:/etc/grafana
+        - grafana_lib:/var/lib/grafana
+        - grafana_plugins:/var/lib/grafana/plugins
+        - grafana_log:/var/log/grafana
+  add_grafana_datasource:
+    image: grozeille/grafana-add-opentsdb
+    environment:
+        GRAFANA_HOST: grafana
+        TSDB_HOST: opentsdb
+    links:
+        - grafana
+        - opentsdb
+volumes:
+    grafana_etc:
+    grafana_lib:
+    grafana_plugins:
+    grafana_log:
+    hbase_data:
+    hbase_log:
+    opentsdb_cache:
+    opentsdb_log:
