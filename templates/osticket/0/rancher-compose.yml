@@ -1,0 +1,12 @@
+.catalog:
+  name: OSTicket
+  description: |
+    osticket french
+  version: "1.0"
+
+mysql:
+  scale: 1
+  start_on_create: true
+osticket:
+  scale: 1
+  start_on_create: true
