@@ -1,7 +1,7 @@
 version: '2'
 services:
   opentsdb:
-    image: grozeille/hbase-opentsdb
+    image: grozeille/opentsdb-hbase
     stdin_open: true
     tty: true
     privileged: true
