@@ -1,0 +1,18 @@
+netdata:
+  privileged: true
+  image: grozeille/netdata-opentsdb
+  environment:
+    NETDATA_PORT: '${NETDATA_PORT}'
+    OPENTSDB_HOST: 192.168.1.153
+    OPENTSDB_PORT: '4242'
+  stdin_open: true
+  network_mode: host
+  volumes:
+  - /proc:/host/proc:ro
+  - /sys:/host/sys:ro
+  - /var/run/docker.sock:/var/run/docker.sock:ro
+  ports:
+  - ${NETDATA_PORT}:${NETDATA_PORT}/tcp
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.scheduler.global: 'true'
